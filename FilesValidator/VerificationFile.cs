@@ -26,7 +26,7 @@ namespace FilesValidator
         private MD5 md5;
         private SHA256 sha256;
 
-        internal VerificationFile(string verificationFilePath)
+        internal VerificationFile(string verificationFilePath, Func<bool> ifCancelled)
         {
             fileStream = new FileStream(verificationFilePath, FileMode.Open, FileAccess.Read);
             StreamReader streamReader = new StreamReader(fileStream, encoding: Encoding.UTF8);
@@ -64,6 +64,10 @@ namespace FilesValidator
                 int index;
                 while((line = streamReader.ReadLine()) != null)
                 {
+                    if(ifCancelled())
+                    {
+                        return;
+                    }
                     index = line.IndexOf('=');
                     hashCode.Add(line.Substring(0, index - 1), line.Substring(index + 2, line.Length - index - 2));
                 }

@@ -9,6 +9,7 @@ namespace FilesValidator
 {
     internal class FilesComparator
     {
+        internal enum CheckResult { same, differentFileMode, differentFilePath, differentEncryptMode, nullFiles };
         internal enum CompareResult { equal, lost, changed, moved, movedNewPosition, newAdded };
 
         internal VerificationFile? earlierFile;
@@ -38,10 +39,14 @@ namespace FilesValidator
 
             movedPosition = new Dictionary<string, string>();
         }
-        internal void ReadVerificationFiles()
+        internal void ReadVerificationFiles(Func<bool> ifCancelled)
         {
-            VerificationFile vf1 = new VerificationFile(path1);
-            VerificationFile vf2 = new VerificationFile(path2);
+            VerificationFile vf1 = new VerificationFile(path1, ifCancelled);
+            VerificationFile vf2 = new VerificationFile(path2, ifCancelled);
+            if(ifCancelled())
+            {
+                return;
+            }
             if(DateTime.Compare(vf1.createdTime, vf2.createdTime) <= 0)
             {
                 earlierFile = vf1;
@@ -52,6 +57,26 @@ namespace FilesValidator
                 earlierFile = vf2;
                 laterFile = vf1;
             }
+        }
+        internal CheckResult CheckIfSame()
+        {
+            if(earlierFile == null || laterFile == null)
+            {
+                return CheckResult.nullFiles;
+            }
+            if(earlierFile.fileMode != laterFile.fileMode)
+            {
+                return CheckResult.differentFileMode;
+            }
+            if(earlierFile.filePath != laterFile.filePath)
+            {
+                return CheckResult.differentFilePath;
+            }
+            if(earlierFile.encryptingMode != laterFile.encryptingMode)
+            {
+                return CheckResult.differentEncryptMode;
+            }
+            return CheckResult.same;
         }
         internal void CompareTwoFiles(Func<bool> ifCancelled, Action<CompareResult, string?> UIUpgrade)
         {
@@ -108,6 +133,7 @@ namespace FilesValidator
                     {
                         UIUpgrade(CompareResult.movedNewPosition, valuePair.Value+" => "+keyValuePair.Key);
                         flag = true;
+                        break;
                     }
                 }
                 if(!flag)

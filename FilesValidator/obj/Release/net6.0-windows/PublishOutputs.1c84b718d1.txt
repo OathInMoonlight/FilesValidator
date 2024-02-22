@@ -1,0 +1,5 @@
+E:\Material&Project\WPF\FilesValidator.exe
+E:\Material&Project\WPF\FilesValidator.dll
+E:\Material&Project\WPF\FilesValidator.deps.json
+E:\Material&Project\WPF\FilesValidator.runtimeconfig.json
+E:\Material&Project\WPF\FilesValidator.pdb
