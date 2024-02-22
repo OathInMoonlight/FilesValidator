@@ -1,0 +1,49 @@
+﻿<Page x:Class="FilesValidator.CompareFiles_processingPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:FilesValidator"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="900"
+      Title="CompareFiles_processingPage">
+    <Border BorderThickness="5" Background="WhiteSmoke">
+        <Grid Margin="15">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" Name="status_textBlock" Text="正在对比两个校验文件" FontFamily="Microsoft YaHei UI Light" FontSize="16"/>
+            <ProgressBar Grid.Row="1" Name="progressBar" Height="16" Margin="0 20" Value="0"/>
+            <TabControl Grid.Row="2">
+                <TabItem Header="校验一致的文件" FontFamily="Microsoft YaHei UI Light" FontSize="14" IsSelected="True">
+                    <TextBox Name="showPath_textBox" BorderThickness="0" IsReadOnly="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"/>
+                </TabItem>
+                <TabItem Header="丢失的文件" FontFamily="Microsoft YaHei UI Light" FontSize="14">
+                    <TextBox Name="lostFiles_textBox" BorderThickness="0" IsReadOnly="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"/>
+                </TabItem>
+                <TabItem Header="发生变更的文件" FontFamily="Microsoft YaHei UI Light" FontSize="14">
+                    <TextBox Name="changedFiles_textBox" BorderThickness="0" IsReadOnly="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"/>
+                </TabItem>
+                <TabItem Header="发生移动的文件" FontFamily="Microsoft YaHei UI Light" FontSize="14">
+                    <TextBox Name="movedFiles_textBox" BorderThickness="0" IsReadOnly="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"/>
+                </TabItem>
+                <TabItem Header="新增的文件" FontFamily="Microsoft YaHei UI Light" FontSize="14">
+                    <TextBox Name="newFiles_textBox" BorderThickness="0" IsReadOnly="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"/>
+                </TabItem>
+            </TabControl>
+            <Grid Grid.Row="3" Margin="0 20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0" Content="中止" FontFamily="Microsoft YaHei UI Light" FontSize="16" Width="150" Click="CancelImmediately"/>
+                <Button Grid.Column="1" Content="完成" FontFamily="Microsoft YaHei UI Light" FontSize="16" Width="150" Click="Complete"/>
+            </Grid>
+        </Grid>
+    </Border>
+</Page>
